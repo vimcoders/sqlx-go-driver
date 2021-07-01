@@ -1,6 +1,7 @@
 package sqlx
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 
@@ -44,6 +45,6 @@ func (c *Connector) Close() (err error) {
 	//return c.db.Close()
 }
 
-func (c *Connector) Exec(convert ...driver.Convertor) (err error) {
-	return nil
+func (c *Connector) Tx(ctx context.Context) (driver.Execer, error) {
+	return nil, nil
 }
