@@ -1,7 +1,6 @@
 package sqlx
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 
@@ -36,30 +35,6 @@ type Connector struct {
 	*sql.DB
 }
 
-func (c *Connector) Conn(ctx context.Context) (driver.Conn, error) {
-	return nil, nil
-	//dc, err := c.db.Conn(ctx)
-
-	//if err != nil {
-	//	return nil, err
-	//}
-
-	//return &connect{
-	//	conn: dc,
-	//}, nil
-}
-
-func (c *Connector) Tx(ctx context.Context) (driver.Tx, error) {
-	return nil, nil
-	//tx, err := c.db.BeginTx(ctx, &sql.TxOptions{})
-
-	//if err != nil {
-	//	return nil, err
-	//}
-
-	//return &trans{tx}, nil
-}
-
 func (c *Connector) SetMaxOpenConns(n int) {
 	//c.db.SetMaxOpenConns(n)
 }
@@ -67,4 +42,8 @@ func (c *Connector) SetMaxOpenConns(n int) {
 func (c *Connector) Close() (err error) {
 	return nil
 	//return c.db.Close()
+}
+
+func (c *Connector) Exec(convert ...driver.Convertor) (err error) {
+	return nil
 }
