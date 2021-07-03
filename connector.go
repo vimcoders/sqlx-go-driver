@@ -36,15 +36,12 @@ type Connector struct {
 	*sql.DB
 }
 
-func (c *Connector) SetMaxOpenConns(n int) {
-	//c.db.SetMaxOpenConns(n)
-}
-
-func (c *Connector) Close() (err error) {
-	return nil
-	//return c.db.Close()
-}
-
 func (c *Connector) Tx(ctx context.Context) (driver.Execer, error) {
-	return nil, nil
+	tx, err := c.DB.BeginTx(ctx, &sql.TxOptions{Isolation: sql.LevelRepeatableRead})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &Tx{tx}, nil
 }
