@@ -5,8 +5,6 @@ import (
 	"reflect"
 	"strings"
 	"time"
-
-	"github.com/vimcoders/go-driver"
 )
 
 type Inserter struct {
@@ -15,7 +13,7 @@ type Inserter struct {
 }
 
 func (i *Inserter) TableName() string {
-	if table, ok := i.Inserter.(driver.Table); ok {
+	if table, ok := i.Inserter.(Table); ok {
 		return table.TableName()
 	}
 
@@ -101,7 +99,7 @@ func (i *Inserter) Convert() (query string, args []interface{}) {
 
 		keys = append(keys, fmt.Sprintf("`%v`", colName))
 
-		if encoder, ok := v.Field(i).Addr().Interface().(driver.Marshaler); ok {
+		if encoder, ok := v.Field(i).Addr().Interface().(Marshaler); ok {
 			str, err := encoder.Marshal()
 
 			if err != nil {
@@ -133,7 +131,7 @@ func (i *Inserter) Scan(scan func(dest ...interface{}) error) error {
 	return nil
 }
 
-func WithInserter(where, inserter interface{}) driver.Convertor {
+func WithInserter(where, inserter interface{}) Convertor {
 	if inserter == nil {
 		return nil
 	}

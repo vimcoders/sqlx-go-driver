@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-
-	"github.com/vimcoders/go-driver"
 )
 
 type Deleter struct {
@@ -14,7 +12,7 @@ type Deleter struct {
 }
 
 func (d *Deleter) TableName() string {
-	if table, ok := d.Deleter.(driver.Table); ok {
+	if table, ok := d.Deleter.(Table); ok {
 		return table.TableName()
 	}
 
@@ -68,7 +66,7 @@ func (d *Deleter) Scan(scan func(dest ...interface{}) error) error {
 	return nil
 }
 
-func WithDeleter(where, deleter interface{}) driver.Convertor {
+func WithDeleter(where, deleter interface{}) Convertor {
 	switch reflect.TypeOf(where).Kind() {
 	case reflect.Ptr:
 	default:

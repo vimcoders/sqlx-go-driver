@@ -5,8 +5,6 @@ import (
 	"reflect"
 	"strings"
 	"time"
-
-	"github.com/vimcoders/go-driver"
 )
 
 type Updater struct {
@@ -19,7 +17,7 @@ func (u *Updater) TableName() string {
 		return ""
 	}
 
-	if table, ok := u.Updater.(driver.Table); ok && len(table.TableName()) > 0 {
+	if table, ok := u.Updater.(Table); ok && len(table.TableName()) > 0 {
 		return table.TableName()
 	}
 
@@ -110,7 +108,7 @@ func (u *Updater) Convert() (sql string, args []interface{}) {
 
 		values = append(values, fmt.Sprintf("`%v`=?", colName))
 
-		if encoder, ok := v.Field(i).Addr().Interface().(driver.Marshaler); ok {
+		if encoder, ok := v.Field(i).Addr().Interface().(Marshaler); ok {
 			str, err := encoder.Marshal()
 
 			if err != nil {
@@ -140,7 +138,7 @@ func (u *Updater) Scan(scan func(dest ...interface{}) error) error {
 	return nil
 }
 
-func WithUpdater(where, updater interface{}) driver.Convertor {
+func WithUpdater(where, updater interface{}) Convertor {
 	switch reflect.TypeOf(updater).Kind() {
 	case reflect.Ptr:
 	default:

@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-
-	"github.com/vimcoders/go-driver"
 )
 
 type Queryer struct {
@@ -41,7 +39,7 @@ func (q *Queryer) scanner() interface{} {
 }
 
 func (q *Queryer) TableName() string {
-	if table, ok := q.Scanner.(driver.Table); ok && len(table.TableName()) > 0 {
+	if table, ok := q.Scanner.(Table); ok && len(table.TableName()) > 0 {
 		return table.TableName()
 	}
 
@@ -214,7 +212,7 @@ func (q *Queryer) Scan(scan func(dest ...interface{}) error) error {
 			continue
 		}
 
-		decoder, ok := v.Field(i).Addr().Interface().(driver.Unmarshaler)
+		decoder, ok := v.Field(i).Addr().Interface().(Unmarshaler)
 
 		if !ok {
 			continue
@@ -228,7 +226,7 @@ func (q *Queryer) Scan(scan func(dest ...interface{}) error) error {
 	return nil
 }
 
-func WithQueryer(where, scanner interface{}) driver.Convertor {
+func WithQueryer(where, scanner interface{}) Convertor {
 	if scanner == nil {
 		return nil
 	}
